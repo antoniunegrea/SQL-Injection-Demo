@@ -1,0 +1,419 @@
+﻿USE [Car Parts Shop]
+GO
+/****** Object:  Table [dbo].[Cars]    Script Date: 5/19/2025 8:20:07 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Cars](
+	[vin] [varchar](20) NOT NULL,
+	[brand] [varchar](20) NOT NULL,
+	[year_of_manufacture] [int] NOT NULL,
+	[customer_id] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[vin] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Categories]    Script Date: 5/19/2025 8:20:07 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Categories](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[name] [varchar](30) NOT NULL,
+	[description] [varchar](100) NULL,
+	[col] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Current_version_table]    Script Date: 5/19/2025 8:20:07 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Current_version_table](
+	[current_version] [int] NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Customers]    Script Date: 5/19/2025 8:20:07 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Customers](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[name] [varchar](50) NOT NULL,
+	[phone_number] [varchar](13) NOT NULL,
+	[shop_id] [int] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Departments]    Script Date: 5/19/2025 8:20:07 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Departments](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[name] [varchar](30) NOT NULL,
+	[shop_id] [int] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY],
+UNIQUE NONCLUSTERED 
+(
+	[name] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Employees]    Script Date: 5/19/2025 8:20:07 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Employees](
+	[cnp] [varchar](15) NOT NULL,
+	[name] [varchar](50) NOT NULL,
+	[wage] [int] NOT NULL,
+	[department_id] [int] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[cnp] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Manufacturers]    Script Date: 5/19/2025 8:20:07 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Manufacturers](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[name] [varchar](30) NULL,
+	[country] [varchar](30) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Orders]    Script Date: 5/19/2025 8:20:07 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Orders](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[part_id] [int] NOT NULL,
+	[customer_id] [int] NOT NULL,
+	[order_date] [date] NOT NULL,
+	[return_id] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id] ASC,
+	[part_id] ASC,
+	[customer_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Parts]    Script Date: 5/19/2025 8:20:07 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Parts](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[car_id] [varchar](20) NOT NULL,
+	[category_id] [int] NOT NULL,
+	[manufacturer_id] [int] NOT NULL,
+	[color] [varchar](10) NULL,
+	[price] [int] NOT NULL,
+	[warranty] [date] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Returns]    Script Date: 5/19/2025 8:20:07 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Returns](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[reason] [varchar](50) NULL,
+	[return_amount] [int] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Shops]    Script Date: 5/19/2025 8:20:07 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Shops](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[name] [varchar](30) NOT NULL,
+	[address] [varchar](70) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY],
+UNIQUE NONCLUSTERED 
+(
+	[name] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Tables]    Script Date: 5/19/2025 8:20:07 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Tables](
+	[TableID] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_Tables] PRIMARY KEY CLUSTERED 
+(
+	[TableID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Test]    Script Date: 5/19/2025 8:20:07 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Test](
+	[col1] [int] NOT NULL,
+	[col2] [varchar](10) NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Test2]    Script Date: 5/19/2025 8:20:07 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Test2](
+	[PK] [int] NOT NULL,
+	[NAME] [varchar](30) NULL,
+	[AGE] [int] NOT NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TestRuns]    Script Date: 5/19/2025 8:20:07 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TestRuns](
+	[TestRunID] [int] IDENTITY(1,1) NOT NULL,
+	[Description] [nvarchar](2000) NULL,
+	[StartAt] [datetime] NULL,
+	[EndAt] [datetime] NULL,
+ CONSTRAINT [PK_TestRuns] PRIMARY KEY CLUSTERED 
+(
+	[TestRunID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TestRunTables]    Script Date: 5/19/2025 8:20:07 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TestRunTables](
+	[TestRunID] [int] NOT NULL,
+	[TableID] [int] NOT NULL,
+	[StartAt] [datetime] NOT NULL,
+	[EndAt] [datetime] NOT NULL,
+ CONSTRAINT [PK_TestRunTables] PRIMARY KEY CLUSTERED 
+(
+	[TestRunID] ASC,
+	[TableID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TestRunViews]    Script Date: 5/19/2025 8:20:07 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TestRunViews](
+	[TestRunID] [int] NOT NULL,
+	[ViewID] [int] NOT NULL,
+	[StartAt] [datetime] NOT NULL,
+	[EndAt] [datetime] NOT NULL,
+ CONSTRAINT [PK_TestRunViews] PRIMARY KEY CLUSTERED 
+(
+	[TestRunID] ASC,
+	[ViewID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Tests]    Script Date: 5/19/2025 8:20:07 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Tests](
+	[TestID] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_Tests] PRIMARY KEY CLUSTERED 
+(
+	[TestID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TestTables]    Script Date: 5/19/2025 8:20:07 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TestTables](
+	[TestID] [int] NOT NULL,
+	[TableID] [int] NOT NULL,
+	[NoOfRows] [int] NOT NULL,
+	[Position] [int] NOT NULL,
+ CONSTRAINT [PK_TestTables] PRIMARY KEY CLUSTERED 
+(
+	[TestID] ASC,
+	[TableID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[TestViews]    Script Date: 5/19/2025 8:20:07 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[TestViews](
+	[TestID] [int] NOT NULL,
+	[ViewID] [int] NOT NULL,
+ CONSTRAINT [PK_TestViews] PRIMARY KEY CLUSTERED 
+(
+	[TestID] ASC,
+	[ViewID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[VERSIONS]    Script Date: 5/19/2025 8:20:07 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[VERSIONS](
+	[version] [int] NOT NULL,
+	[proced] [nvarchar](50) NULL,
+	[rev_proced] [nvarchar](50) NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Views]    Script Date: 5/19/2025 8:20:07 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Views](
+	[ViewID] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_Views] PRIMARY KEY CLUSTERED 
+(
+	[ViewID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Cars]  WITH CHECK ADD FOREIGN KEY([customer_id])
+REFERENCES [dbo].[Customers] ([id])
+GO
+ALTER TABLE [dbo].[Customers]  WITH CHECK ADD FOREIGN KEY([shop_id])
+REFERENCES [dbo].[Shops] ([id])
+GO
+ALTER TABLE [dbo].[Departments]  WITH CHECK ADD FOREIGN KEY([shop_id])
+REFERENCES [dbo].[Shops] ([id])
+GO
+ALTER TABLE [dbo].[Employees]  WITH CHECK ADD FOREIGN KEY([department_id])
+REFERENCES [dbo].[Departments] ([id])
+GO
+ALTER TABLE [dbo].[Orders]  WITH CHECK ADD FOREIGN KEY([customer_id])
+REFERENCES [dbo].[Customers] ([id])
+GO
+ALTER TABLE [dbo].[Orders]  WITH CHECK ADD FOREIGN KEY([part_id])
+REFERENCES [dbo].[Parts] ([id])
+GO
+ALTER TABLE [dbo].[Orders]  WITH CHECK ADD FOREIGN KEY([return_id])
+REFERENCES [dbo].[Returns] ([id])
+GO
+ALTER TABLE [dbo].[Parts]  WITH CHECK ADD FOREIGN KEY([car_id])
+REFERENCES [dbo].[Cars] ([vin])
+GO
+ALTER TABLE [dbo].[Parts]  WITH CHECK ADD FOREIGN KEY([category_id])
+REFERENCES [dbo].[Categories] ([id])
+GO
+ALTER TABLE [dbo].[Parts]  WITH CHECK ADD FOREIGN KEY([manufacturer_id])
+REFERENCES [dbo].[Manufacturers] ([id])
+GO
+ALTER TABLE [dbo].[TestRunTables]  WITH CHECK ADD  CONSTRAINT [FK_TestRunTables_Tables] FOREIGN KEY([TableID])
+REFERENCES [dbo].[Tables] ([TableID])
+ON UPDATE CASCADE
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[TestRunTables] CHECK CONSTRAINT [FK_TestRunTables_Tables]
+GO
+ALTER TABLE [dbo].[TestRunTables]  WITH CHECK ADD  CONSTRAINT [FK_TestRunTables_TestRuns] FOREIGN KEY([TestRunID])
+REFERENCES [dbo].[TestRuns] ([TestRunID])
+ON UPDATE CASCADE
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[TestRunTables] CHECK CONSTRAINT [FK_TestRunTables_TestRuns]
+GO
+ALTER TABLE [dbo].[TestRunViews]  WITH CHECK ADD  CONSTRAINT [FK_TestRunViews_TestRuns] FOREIGN KEY([TestRunID])
+REFERENCES [dbo].[TestRuns] ([TestRunID])
+ON UPDATE CASCADE
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[TestRunViews] CHECK CONSTRAINT [FK_TestRunViews_TestRuns]
+GO
+ALTER TABLE [dbo].[TestRunViews]  WITH CHECK ADD  CONSTRAINT [FK_TestRunViews_Views] FOREIGN KEY([ViewID])
+REFERENCES [dbo].[Views] ([ViewID])
+ON UPDATE CASCADE
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[TestRunViews] CHECK CONSTRAINT [FK_TestRunViews_Views]
+GO
+ALTER TABLE [dbo].[TestTables]  WITH CHECK ADD  CONSTRAINT [FK_TestTables_Tables] FOREIGN KEY([TableID])
+REFERENCES [dbo].[Tables] ([TableID])
+ON UPDATE CASCADE
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[TestTables] CHECK CONSTRAINT [FK_TestTables_Tables]
+GO
+ALTER TABLE [dbo].[TestTables]  WITH CHECK ADD  CONSTRAINT [FK_TestTables_Tests] FOREIGN KEY([TestID])
+REFERENCES [dbo].[Tests] ([TestID])
+ON UPDATE CASCADE
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[TestTables] CHECK CONSTRAINT [FK_TestTables_Tests]
+GO
+ALTER TABLE [dbo].[TestViews]  WITH CHECK ADD  CONSTRAINT [FK_TestViews_Tests] FOREIGN KEY([TestID])
+REFERENCES [dbo].[Tests] ([TestID])
+GO
+ALTER TABLE [dbo].[TestViews] CHECK CONSTRAINT [FK_TestViews_Tests]
+GO
+ALTER TABLE [dbo].[TestViews]  WITH CHECK ADD  CONSTRAINT [FK_TestViews_Views] FOREIGN KEY([ViewID])
+REFERENCES [dbo].[Views] ([ViewID])
+GO
+ALTER TABLE [dbo].[TestViews] CHECK CONSTRAINT [FK_TestViews_Views]
+GO
